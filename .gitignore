@@ -1,6 +1,7 @@
+*.pdf
+*.aux
+*.bbl
+*.log
 *~
-*.csv
-*.zip
-__pycache__
-*.pyc
+*.toc
 .Rhistory

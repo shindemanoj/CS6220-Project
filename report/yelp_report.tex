@@ -1,0 +1,146 @@
+%
+% CS6220 Data Mining Project
+%
+\documentclass[12pt]{article}
+
+%
+% Packages
+%
+\usepackage{amsmath}
+\usepackage{enumerate}
+\usepackage[utf8]{inputenc}
+
+\usepackage{clrscode3e}
+\usepackage{tikz}
+
+\RequirePackage{graphics}
+
+\usepackage{graphicx}
+\graphicspath{ {imgs/} }
+
+%
+% Document Settings
+%
+\setlength{\parskip}{1pc}
+\setlength{\parindent}{0pt}
+\setlength{\topmargin}{-3pc}
+\setlength{\textheight}{9.5in}
+\setlength{\oddsidemargin}{0pc}
+\setlength{\evensidemargin}{0pc}
+\setlength{\textwidth}{6.5in}
+
+\title{Restaurant Recommendations using Yelp}
+\author{Manoj Shinde, Tyler Brown, Shohit Bajaj}
+\date{ }
+
+% START DOCUMENT
+\begin{document}
+
+\maketitle
+
+%\tableofcontents
+
+\begin{abstract}
+  When traveling or desiring to experience new food, a person will often seek out
+  restaurant recommendations. The availiablity of data on restaurant preferences, via Yelp,
+  creates an opportunity for someone to have a more personalized experience.
+  We recommend restaurants to a user based on their past reviews and features which
+  differentiate types and quality of restaurants. Supervised learning techniques allow
+  us to predict the rating of unseen restaurants by each user. Restaurant rating
+  predictions allow us to rank which dining experiences are most likely to be well
+  received for each user.
+  \end{abstract}
+
+\section{Introduction}
+
+There are many different types of restaurant experiences due to variation in
+personal preferences. A service catering to these personal preferences will
+generate value by improving customer convience
+\cite{mackay_vandevijvere_xie_lee_swinburn_2017}. Yelp is a popular mobile/web
+application that has tons of data on different businesses \cite{Restaura71:online}.
+Consumer reviews have been shown to affect restaurant demand. A one-star increase in
+Yelp ratings has been linked to a 5-9 percent increase in restaurant revenue
+\cite{luca2016reviews}. Consumers do not use all available information and are more
+responsive to quality changes that are more visible \cite{luca2016reviews}. It is
+not practical for a consumer to go though every rating and review. Sorting through
+each recommendation to see which is most relevant is also not practical for the
+consumer. We use a supervised learning model to provide value by improving customer
+convienence with restaurant recommendations powered by Yelp.
+
+Restaurants on Yelp are given ratings using a five-star scale. We compare two
+techniques to solve this multiclass problem. A multinomial logistic regression
+is used as a baseline model. We then try to improve our accuracy with the use of
+ensemble methods. Data from Yelp has been previously collected and made publicly
+available on Kaggle \cite{YelpData59:online}. We demonstrate how to improve
+consumer convienence by creating personalized restaurant recommendations with
+Yelp data.
+
+\section{Methodology}
+
+Recommendation systems have historically been used in various other disciplines and
+are considered quite effective in influencing the decision of a user. In this project
+we are trying to make a recommendation based on the rating that a given user would give
+to a specific restaurant.
+
+For this project we have chosen Yelp’s dataset on Kaggle \cite{YelpData59:online}
+which is 3GB in size. The dataset
+has 5,200,000 user reviews, Information on 174,000 businesses, spanning 11 metropolitan
+areas in four countries. The dataset has 7 csv files containing data on different
+attributes of a business. Our focus is on yelp\_business.csv and yelp\_review.csv where
+fields like user\_id, stars, review, category help us in establishing our model.
+
+Multinomial logistic regression may consider features related to the type of restaurant
+business, or individual characteristics about the user.
+
+Ensemble methods may be able to bring in additional features. Location-based social
+networks (LBSNs) are a combination of location-based networks and social media. There
+may be geographic patterns of ratings of Yelp business venues within a city-wide
+region \cite{sun2017spatial}. Including the AMOEBA algorithm may increase the
+accuracy of our model. Additional programming may be required to include the AMOEBA
+algorithm with the ensemble methods. We may include a classifier using deep
+learning with the ensemble methods if there's time.
+
+\section{Code}
+
+Our code is being done in Python. The Multinomial Logisitic regression may be
+implemented using Scikit-Learn or Statsmodels. 
+
+The AMOEBA algorithm is a form of optimization problem. It is also known
+as the Nelder-Mead method and available in Scipy \cite{Optimiza90:online}. Further
+work will be necessary to see if spatial algorithms such as this can be
+included as part of the ensemble methods. 
+
+\section{Results}
+
+Reviewing results here
+
+\subsection{Multinomial Logistic Regression}
+
+Here's what we found.
+
+\subsection{Ensemble Methods}
+
+Here's what else we found.
+
+
+\section{Discussion}
+
+We found that a certain model worked better. We found certain patterns
+in the data, etc. We also have certain caveats related to the data that
+we'll mention here.
+
+\section{Future Work}
+
+We may make a recommendation API for Yelp.
+
+\section{Conclusion}
+
+We found some things that worked well and other things that worked
+less well. There seems to be a positive direction forward taking a
+certain approach.
+
+
+\bibliography{references} 
+\bibliographystyle{ieeetr}
+
+\end{document}
