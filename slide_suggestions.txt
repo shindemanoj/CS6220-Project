@@ -1,0 +1,17 @@
+* slide 9
+  - consider using a gender neutral pronoun they/them instead of he/his
+* slide 10
+  - period after abbreviation for Avg. but not feature name
+* slide 11
+  - maybe specify that TextBlob was used in the paper we're replicating
+    as a justification for choosing this package
+* slide 13
+  - probably need to include our 4th model (not sure what we ended up doing)
+  - looks like it was decision tree classifier
+* note
+  - may want to include a slide which defines mean squared error (MSE)
+    before we start using it in slide 14
+* wow, how did the decision tree classifier improve so much?
+* probably want to be more explicit that we're replicating a paper up 
+  front (which one?). I don't think it said anywhere that we did a replication
+  and extension which is important for the audience to know.
