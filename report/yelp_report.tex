@@ -75,12 +75,27 @@ available on Kaggle \cite{YelpData59:online}. We demonstrate how to improve
 consumer convienence by creating personalized restaurant recommendations with
 Yelp data.
 
-\section{Methodology}
-
 Recommendation systems have historically been used in various other disciplines and
 are considered quite effective in influencing the decision of a user. In this project
 we are trying to make a recommendation based on the rating that a given user would give
-to a specific restaurant.
+to a specific restaurant. Yelp data \cite{YelpData60:online, YelpData59:online} has been
+used in a variety of challenges and useful approaches have been well documented in a number of
+academic articles \cite{yu2015restaurants, huang2014improving, fan2014predicting,asghar2016yelp}.
+Given that the academic community has submitted a number of approaches to predicting
+Yelp review ratings \cite{asghar2016yelp, potamias2012warm, fan2014predicting, yu2015restaurants},
+we chose to replicate a paper and then extend their analysis. Yu et. al. \cite{yu2015restaurants}
+investigate the dataset provided in Yelp Dataset Challenge Round 5 to predict a reviewers
+next rating, given their rating history and other contextual factors. We replicate
+Yu et. al. \cite{yu2015restaurants} and then extend their paper by developing a model which
+generates output that is more consistent with what would be expected by a Yelp user.
+
+
+\section{Methodology}
+
+Our approach was to replicate results which Yu et. al. \cite{yu2015restaurants} found
+fruitful and then extend their analysis with an emphasis on real world usability. To meet
+these goals, we first conducted a data audit, completed a replication of fruitful results
+from Yu et. al \cite{yu2015restaurants}, and then completed an extension of their results.
 
 For this project we have chosen Yelp’s dataset on Kaggle \cite{YelpData59:online}
 which is 3GB in size. The dataset
@@ -89,38 +104,46 @@ areas in four countries. The dataset has 7 csv files containing data on differen
 attributes of a business. Our focus is on yelp\_business.csv and yelp\_review.csv where
 fields like user\_id, stars, review, category help us in establishing our model.
 
-Multinomial logistic regression may consider features related to the type of restaurant
-business, or individual characteristics about the user.
+\subsection{Data Audit}
 
-Ensemble methods may be able to bring in additional features. Location-based social
-networks (LBSNs) are a combination of location-based networks and social media. There
-may be geographic patterns of ratings of Yelp business venues within a city-wide
-region \cite{sun2017spatial}. Including the AMOEBA algorithm may increase the
-accuracy of our model. Additional programming may be required to include the AMOEBA
-algorithm with the ensemble methods. We may include a classifier using deep
-learning with the ensemble methods if there's time.
+Upon downloading our copy of Yelp Data hosted on Kaggle \cite{YelpData59:online}, we performed
+an audit of the data to assess usability and any data quality issues. We found that our
+dependent variable, Yelp review stars, contained imbalanced classes. There were considerably
+more 4 and 5 star ratings than 1-3 star ratings. The Yelp dataset came to us in several tables.
+We created an interactive data visualization to show the relationships between tables by creating
+an undirected graph where each node was a table name and each edge showed a foreign key
+relationship between nodes. Understanding the data schema was crucial to replicating
+Yu et. al. \cite{yu2015restaurants} as well as thinking about and implementing new features.
+
+The second phase of our data audit created tables showing the percentage of NA, blank, and
+both NA and blank values in each attribute for each table. This excercise quickly showed us
+which tables contained the most usable information for our purposes. For example, the Yelp
+Business Attributes table contained several attributes which seemed like they would be
+relevant features such as presence of Wifi. Upon conducting an assessment, we found that
+the Yelp Business Attributes was almost exclusively populated by NA values. By contrast, the
+Yelp Reviews table contained several good attributes but also some unusable attributes
+related to the classification of a review as ``funny'', ``cool'', or ``useful''. We found
+that conducting an initial data audit up front allowed us to more productively focus our
+efforts.
+
+\subsection{Replication of Yu et. al.}
+
+They used four models, and we replicated three of them. Some of our results differed
+from their findings.
+
+\subsection{Extension of Yu et. al.}
+
+We extended their approach by using a decision tree classifier.
 
 \section{Code}
 
-Our code is being done in Python. The Multinomial Logisitic regression may be
-implemented using Scikit-Learn or Statsmodels. 
+We used scikit-learn. We also used some text stuff because it was in the replication
+paper.
 
-The AMOEBA algorithm is a form of optimization problem. It is also known
-as the Nelder-Mead method and available in Scipy \cite{Optimiza90:online}. Further
-work will be necessary to see if spatial algorithms such as this can be
-included as part of the ensemble methods. 
 
 \section{Results}
 
 Reviewing results here
-
-\subsection{Multinomial Logistic Regression}
-
-Here's what we found.
-
-\subsection{Ensemble Methods}
-
-Here's what else we found.
 
 
 \section{Discussion}
