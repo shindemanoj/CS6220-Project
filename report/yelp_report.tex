@@ -7,6 +7,7 @@
 % Packages
 %
 \usepackage{amsmath}
+\usepackage{caption}
 \usepackage{enumerate}
 \usepackage[utf8]{inputenc}
 
@@ -98,11 +99,25 @@ these goals, we first conducted a data audit, completed a replication of fruitfu
 from Yu et. al \cite{yu2015restaurants}, and then completed an extension of their results.
 
 For this project we have chosen Yelp’s dataset on Kaggle \cite{YelpData59:online}
-which is 3GB in size. The dataset
-has 5,200,000 user reviews, Information on 174,000 businesses, spanning 11 metropolitan
-areas in four countries. The dataset has 7 csv files containing data on different
-attributes of a business. Our focus is on yelp\_business.csv and yelp\_review.csv where
+which is 3GB in size. The dataset has 5,200,000 user reviews, Information on 174,000 businesses,
+spanning 11 metropolitan areas in four countries. The dataset has 7 csv files containing data on
+different attributes of a business. Our focus is on yelp\_business.csv and yelp\_review.csv where
 fields like user\_id, stars, review, category help us in establishing our model.
+
+We evaluated the models in two ways. Models used by Yu et. al. \cite{yu2015restaurants}
+were evaluated using Mean Squared Error (MSE). They tried to make their prediction $\hat{R}_{u,i}$
+for user $u$ and item $i$ to be as close to $R_{u,i}$, the rating $i$ given by the user $u$.
+\[
+MSE = \frac{1}{|T|}\sum(R_{u,i} - \hat{R}_{u,i})^2
+\]
+
+Our extension of Yu et. al. \cite{yu2015restaurants} used a classification model. In this
+case, accuracy was computed by finding the fraction of correct predictions.
+\[
+accuracy(y, \hat{y}) = \frac{1}{n_{samples}} \sum_{i=0}^{n_{samples} - 1} 1(\hat{y}_i = y_i)
+\]
+The two-pronged approach was necessary because we extended the analysis by Yu et. al.
+\cite{yu2015restaurants} by predicting a discrete rather than continuous variable.
 
 \subsection{Data Audit}
 
@@ -128,18 +143,171 @@ efforts.
 
 \subsection{Replication of Yu et. al.}
 
-They used four models, and we replicated three of them. Some of our results differed
-from their findings.
+Yu et. al. \cite{yu2015restaurants} predict the number stars for a new review on Yelp.
+They compare four distinct models in pursuit of the best prediction: a baseline model,
+Linear Regression, Random Forest Regression, and a Latent Factor Model. They applied a
+transformation to the dependent variable to normalize each review star for the implicit
+noise found in Yelp review data.
+
+\[
+\textit{review star} = \textit{review star} - (uAvg + bAvg)/2.0
+\]
+
+Utilizing this transformation of the dependent variable, \textit{review star}, they were
+able to achieve model results found below in Table 1.
+
+\begin{table}[h]
+  \caption{\label{tab:rep-models}Comparison between MSEs for test data (Yu et. al.)}
+  \begin{tabular}{|l|l|}
+    \hline
+    \textbf{Model} & \textbf{MSEs for test data} \\
+    \hline
+    Baseline & 1.41 \\
+    \hline
+    Linear Regression & 0.79 \\
+    \hline
+    Random Forest Regression & 0.64 \\
+    \hline
+    Latent Factor Model & 1.27 \\
+    \hline
+  \end{tabular}
+\end{table}
+
+Each of the four models used a combination of features described below in Table 2.
+
+\begin{table}[h]
+  \caption{\label{tab:features}Model Features}
+\begin{tabular}{| l | l |}
+  \hline
+  \textbf{Feature} & \textbf{Explanation} \\
+  \hline
+  uRate & average rating stars for each user based on the review stars of the
+          training dataset \\
+  \hline
+  bRate & average rating stars for each business based on the review stars of the training 
+          dataset \\
+  \hline
+  rCount & count of reviews this user had made \\
+  \hline
+  tlen & lengh of the review text \\
+  \hline
+  tpol & polarity of the sentiment of the review text \\
+  \hline
+  tsub & subjectivity of the sentiment of the review text \\
+  \hline
+  uAvg & average rating stars for each user which can be get from dataset directly \\
+  \hline
+  bAvg & average rating stars for each business which can be get from dataset directly \\
+  \hline
+\end{tabular}
+\end{table}
+
+We replicated Yu et. al. \cite{yu2015restaurants} with an emphasis on practical application. The
+user would expect a review star prediction with discrete values of 1-5. Yu et. al.
+\cite{yu2015restaurants} approach the dependent variable as continuous and seek to minimize
+the MSE across all new reviews. Their assumptions increase the predictivity of their models but
+depart from the output expected by the user. We sought to assess how well the techniques employed
+by Yu et. al. would work if model output was more consistent with that expected by a Yelp user.
+
+We excluded the dependent variable transformation utilized by Yu et. al. \cite{yu2015restaurants}
+because of the added computational cost of the transformation. We used a dataset of Yelp reviews
+which contained about $5 \times$ more records than the dataset used by Yu et. al. \cite{yu2015restaurants} (5,261,668 reviews vs. 990,627 reviews). Substantively, an argument could be made for
+adhering to discrete Yelp review star values because these values are expected by Yelp users
+when trying to understand where to find a good restaurant. When Yu et. al. \cite{yu2015restaurants}
+chose to use regression models and dependent variable transformations then they violated
+the expectations of model output by Yelp users because they output review stars as a continuous
+rather than discrete variable.
+
+Our approach was to use the top three most performant models by Yu et. al. \cite{yu2015restaurants}
+and then add a fourth model of our own which adhered more closely to the review star values
+expected by a Yelp user. We replicated the Baseline model, Linear Regression model, and
+Random Forest Model.
+
+\subsubsection{Baseline}
+
+Their baseline model used a user's previous average given star (uAvg) to predict their future
+reviews' star. For example, when using the training data, an average star for each user
+is computed by averaging all of their previous review stars (uAvg). Yu et. al.
+\cite{yu2015restaurants} then use those averages to predict the number of review stars in the
+test dataset. Only users who exist in the training and test sets were included. This user subset
+achieves our goal of predicting how a reviewer will rate their subsequent reviews.
+
+\subsubsection{Linear Regression}
+
+Using features defined in Table 2, we applied the linear regression to the training dataset. The
+features are rCount, tlen, tpol, tsub. The label is the review star rating $i$ given by
+user $u$. With the features and labels, the linear regression is applied by using
+the Scikit-Learn Ordinary Least Squares Regression \cite{sklearnl76:online}. We excluded
+additional transformations to the dependent variable due to computational cost.
+
+\subsubsection{Random Forest Regression}
+
+For each review $i$ by user $u$ in the training data, the features are chosen as uAvg, bAvg,
+rCount, tlen, tpol, tsub. The label is set to (review star). With the features and labels,
+we applied random forest regression by using Scikit-Learn Random Forest Regressor
+\cite{32432skl20:online}. In this model, we compared the validation MSE with different
+parameters (n estimators and max depth). The evaluation for the model will be discussed the
+results section.
 
 \subsection{Extension of Yu et. al.}
 
-We extended their approach by using a decision tree classifier.
+The analysis by Yu et. al. \cite{yu2015restaurants} predicts a continuous dependent variable.
+A Yelp user would expect restaurant review ratings to be a discrete value between
+one and five. Given a 'restaurants you might like' feature, a discrete value makes it easier
+for the user to express their preferences by filtering on predicted restaurant review stars,
+and other factors like location, to work with Yelp to more quickly find their desired restaurant.
+Instead of saying, 'look at these top ten restaurants', Yelp could use our model to say
+'search through our restaurant recommendations with these filters'. We see value in making
+recommendations an interactive process rather than a presentation of a static list. In order
+for the user to experience an interactive process, they will need to be presented with
+model output which is intuitive for them. Given these objectives, we used the same features
+from Yu et. al. \cite{yu2015restaurants} but implemented a classification model.
+
+\subsubsection{Decision Tree Classifier}
+
+A Decision Tree Classifier \cite{sklearnt25:online} was used to predict the ratings
+of a user's future Yelp review. We used several features from Table 2: uRate, bRate, rCount,
+tlen, tpol, tsub, uAvg, and bAvg. We tried two distinct strategies to mitigate the class imbalance
+in Yelp review data which is skewed towards 4-5 star ratings. The first strategy is to
+'balance' the classes by using the values of $y$ to automatically adjust weights inversely
+proportional to class frequencies in the input data. Our second approach was to employ
+under-sampling. The evaluation of this model will be discussed in the results section.
 
 \section{Code}
 
-We used scikit-learn. We also used some text stuff because it was in the replication
-paper.
+The code we used to complete our analysis was all done in Python. We used Jupyter Notebooks
+\cite{ProjectJ85:online} to complete each stage of the analysis. The other tool used during
+each stage of the analysis was Pandas \cite{PythonDa47:online}.
 
+\subsection{Data Audit}
+
+The data audit included interactive visualization of the Yelp dataset. These visualizations
+were achieved using Networkx \cite{NetworkX32:online} to create an undirected network graph,
+and Bokeh \cite{Welcomet73:online}  to provide a custom graphic in the style of D3.js
+\cite{D3jsData97:online}. 
+
+\subsection{Sentiment Analysis}
+
+Yu et. al. \cite{yu2015restaurants} used the Python package TextBlob \cite{TextBlob35:online}.
+It's a package which helps to process text data by providing an API for natural language
+processing. For the sentiment analysis tasks (features 'tpol' and 'tsub'), TextBlob returned
+a named tuple with float variables representing polarity and subjectivity.
+
+The polarity score is a float number in range of [-1.0, 1.0] with more positive values
+representing more positive sentiment. Text expressing negative sentiment may include words
+like: 'hate', 'disappointed', 'terrible', etc. Positive sentiment could be expressed with
+words like 'wonderful', 'great', etc.
+
+The subjectivity score is also a float number but in range of [0.0, 1.0]. A value of 0.0
+indicates the most objective score and 1.0 indicates the most subjective score. A highly
+subjective text may use words like 'I', 'we', 'our', etc., with high frequency. Objective
+text would use these types of words with a low frequency.
+
+\subsection{Model Implementations}
+
+We used Scikit-Learn for our model implementations \cite{sklearnl76:online, 32432skl20:online,
+  sklearnt25:online}. When plotting was used for evaluation, we used
+Matplotlib \cite{Matplotl1:online}. 
 
 \section{Results}
 
