@@ -31,7 +31,7 @@
 \setlength{\textwidth}{6.5in}
 
 \title{Restaurant Recommendations using Yelp}
-\author{Manoj Shinde, Tyler Brown, Shohit Bajaj}
+\author{Shohit Bajaj, Tyler Brown, Manoj Shinde}
 \date{ }
 
 % START DOCUMENT
@@ -42,12 +42,15 @@
 %\tableofcontents
 
 \begin{abstract}
-  When traveling or desiring to experience new food, a person will often seek out restaurant recommendations. 
-  The availability of data on restaurant preferences, via Yelp, creates an opportunity for someone to have a more personalized experience. 
-  In this project, We have developed a model to predict the star ratings of Yelp Reviews for restaurants using various machine learning algorithms 
-  such as Linear Regression, Random Forest Regression. User’s restaurant preferences can be understood via the reviews they write and ratings that 
-  they give to a restaurant that they have visited. Supervised learning techniques allow us to predict the rating of unseen restaurants by each user. 
-  Restaurant rating predictions allow us to rank which dining experiences are most likely to be well received for each user. 
+  When traveling or desiring to experience new food, a person will often seek out restaurant
+  recommendations. The availability of data on restaurant preferences, via Yelp, creates an
+  opportunity for someone to have a more personalized experience. We provide restaurant
+  recommendations with intuitive output values for a Yelp user. This intuitive output allows
+  the user to provide additional input by filtering on their preferences not expressed in the
+  Yelp review dataset. Our intuitive output values extends previous research on Yelp
+  review star ratings. Supervised learning techniques allow us to predict the rating of unseen
+  restaurants by each user. Restaurant rating predictions allow us to rank which dining
+  experiences are most likely to be well received for each user.
   \end{abstract}
 
 \section{Introduction}
@@ -56,22 +59,21 @@ There are many different types of restaurant experiences due to variation in
 personal preferences. A service catering to these personal preferences will
 generate value by improving customer convience
 \cite{mackay_vandevijvere_xie_lee_swinburn_2017}. Yelp is a popular mobile/web
-application that has tons of data on different businesses \cite{Restaura71:online}.
-Consumer reviews have been shown to affect restaurant demand. A one-star increase in
-Yelp ratings has been linked to a 5-9 percent increase in restaurant revenue
-\cite{luca2016reviews}. Consumers do not use all available information and are more
-responsive to quality changes that are more visible \cite{luca2016reviews}. It is
+application that has significant volume, variety, velocity, and veracity of data on different
+businesses \cite{Restaura71:online}. Consumer reviews have been shown to affect restaurant
+demand. A one-star increase in Yelp ratings has been linked to a 5-9 percent increase in
+restaurant revenue \cite{luca2016reviews}. Consumers do not use all available information and are
+more responsive to quality changes that are more visible \cite{luca2016reviews}. It is
 not practical for a consumer to go though every rating and review. Sorting through
 each recommendation to see which is most relevant is also not practical for the
 consumer. We use a supervised learning model to provide value by improving customer
 convienence with restaurant recommendations powered by Yelp.
 
-Restaurants on Yelp are given ratings using a five-star scale. We compare two
-techniques to solve this multiclass problem. A multinomial logistic regression
-is used as a baseline model. We then try to improve our accuracy with the use of
-ensemble methods. Data from Yelp has been previously collected and made publicly
-available on Kaggle \cite{YelpData59:online}. We demonstrate how to improve
-consumer convienence by creating personalized restaurant recommendations with
+Restaurants on Yelp are given ratings using a five-star scale. We replicate 
+the three most performant models from Yu et. al. \cite{yu2015restaurants} then
+extend their analysis using a classification algorithm. Data from Yelp has been previously
+collected and made publicly available on Kaggle \cite{YelpData59:online}. We demonstrate
+how to improve consumer convienence by creating personalized restaurant recommendations with
 Yelp data.
 
 Recommendation systems have historically been used in various other disciplines and
@@ -86,18 +88,25 @@ we chose to replicate a paper and then extend their analysis. Yu et. al. \cite{y
 investigate the dataset provided in Yelp Dataset Challenge Round 5 to predict a reviewers
 next rating, given their rating history and other contextual factors. We replicate
 Yu et. al. \cite{yu2015restaurants} and then extend their paper by developing a model which
-generates output that is more consistent with what would be expected by a Yelp user.
+generates output that is more consistent with what would be expected by a Yelp user. Intuitive
+model output allows for the possible development of a more integrated and personalized user
+restaurant recommendation experience.
 
 
 \section{Background}
-With the advent of websites such as Yelp, customer feedback has become a significant component in business practices. 
-In order to maintain and increase their reputations, businesses should adjust their services according to criticism. 
-With increasing popularity, Yelp allows users to provide text reviews and assign 1-5 stars to local businesses. 
-This platform has collected a large amount of data over the years. As the size of the data continues to grow, 
-it would be helpful if we could learn to predict ratings based on review‘s text alone, as free-text reviews are difficult 
-for computer systems to understand, analyze and aggregate. This idea can be extended to many other applications where assessment 
-has traditionally been in the format of text and quickly assigning a numerical rating is difficult to execute. Examples include 
-predicting ratings for TV series or Ted Talks based on news articles or blogs assigning ratings to Netflix videos based on viewers‘ comments.
+
+The advent of websites such as Yelp has meant that customer feedback can effect business
+reputation and practices in new ways. In order for a business to maintain and increase their
+reputations, businesses should adjust their services according to these publicly communicated
+opinions and preferences. The increasing popularity of Yelp allows users to provide
+text reviews and assign 1-5 star ratings to local businesses. This platform has collected a large
+volume of data over the years. As the size of the data continues to grow, it would be helpful if
+Data Scientists could create more value from datasets such as Yelp. Value from the type of
+open response reviews used on Yelp is currently difficult for computer systems to understand,
+analyze and aggregate. Improving the analysis of open response reviews is a technique which can
+be extended to many other applications. Examples include predicting ratings for TV series, movies,
+or TED Talks. Reviews of this media are often in a news article or blog format which also includes
+review ratings similar to Yelp.
 
 \section{Methodology}
 
@@ -293,7 +302,7 @@ additional transformations to the dependent variable due to computational cost.
 \subsubsection{Random Forest Regression}
 
 For each review $i$ by user $u$ in the training data, the features are chosen as uAvg, bAvg,
-rCount, tlen, tpol, tsub. The label is set to (review star). With the features and labels,
+rCount, tlen, tpol, tsub. The label is set to review star. Using the features and labels,
 we applied random forest regression by using Scikit-Learn Random Forest Regressor
 \cite{32432skl20:online}. In this model, we compared the validation MSE with different
 parameters (n estimators and max depth). The evaluation for the model will be discussed the
@@ -366,16 +375,26 @@ were much higher than the scores for middle classes such as 2,3, and 4. This is 
 easier to differentiate a clearly negative text from a clearly positive review (binary classification)
 but finding polarity of positivity and negativity is more difficult.
 
-\begin{figure}[h]
+\begin{table}[h]
   \caption{Mean Square Error}
   \centering
-  \includegraphics[width=0.5\textwidth]{MSE}
-  \end{figure}
+  \begin{tabular}{|l|l|}
+    \hline
+    \textbf{Model}    & \textbf{MSE (test data)} \\
+    \hline
+    Baseline          & 5.39 \\
+    \hline
+    Linear Regression & 1.89 \\
+    \hline
+    Random Forest Regression & 1.89 \\
+    \hline
+  \end{tabular}
+  \end{table}
   
   We used Decision Tree classifier to predict the outcome between a 1 and a 5 star rating.
   
   \begin{table}[h]
-	\caption{Precision and Recall}
+	\caption{Precision and Recall by Review Stars}
 	\centering
 	\begin{tabular}{|l|l|l|l|l|}
 	\hline
@@ -393,19 +412,37 @@ but finding polarity of positivity and negativity is more difficult.
 
 \section{Discussion}
 
-From the results we can observe that Mean Square Error for Linear and Random Forest Regression model is the same. In referenced paper random forest model outperforms the other models. This may be due to the size of the data set we are handling. The referenced paper did the analysis on 1.6M reviews and our model is using 5.6M reviews. As restaurant review ratings are discrete in nature between one to five, we also used decision tree classifier model to predict ratings. With decision tree classifier we got descent results which can be improved using under sampling or using other classification models.
+We observed in the results that Mean Square Error for Linear and Random Forest Regression
+model is the same. In referenced paper random forest model outperforms the other models. This may
+be due to the size of the dataset we are handling. The referenced paper did the analysis on 1.6M
+reviews and our model is using 5.6M reviews. As restaurant review ratings are discrete in nature
+between one to five, we also used decision tree classifier model to predict ratings. The
+Decision Tree Classifier provided considerably better results than random selection. These
+results can be improved with better features or more normalization to bring out more signal
+from the noise resulting from imbalanced review star classes in the Yelp dataset.
 
 \section{Future Work}
 
-Predicted ratings of unseen restaurants can be used to recommend different restaurants to the user based 
-on the categories and attributes they prefer. This will enhance their experience on Yelp. 
-We can extend our review star prediction to all businesses and not limit it to restaurants. 
-We can also try few other models like Ridge Regression, Support Vector Machine, etc. for more accurate results \\ \\ \\
+Predicted ratings of unseen restaurants can be used to recommend different restaurants to the
+user based on the categories and attributes they prefer. The presence of intuitive output for
+the user can allow them to filter out recommendations they find relevant; thereby improving
+restaurant recommendation outcomes. This will enhance their experience on Yelp. We can extend
+our review star prediction to all businesses and not limit it to restaurants. We can also
+experiment with additional features and machine learning models to improve accuracy. If the
+user is able to play a more active role in selecting restaurant recommendations, then we can
+include this additional data as part of a feedback loop.
 
 \section{Conclusion}
 
-Using Yelp data-set which is available on Kaggle we were able to create interactive data visualization to understand the data better. We cleaned the data-set and calculated new features to train our models. We cached our train and test data using Apache Parquet columnar storage format to make operations faster. Then we trained several models using calculated and existing features from data-set. Finally, we used test data set to compare performances of different models using Mean Square Error, Precision, Recall and Accuracy. We are able to predict the rating for an unseen restaurant for a user based on their reviews and ratings for other restaurants.
-
+Using the Yelp dataset available on Kaggle, we were able to create interactive data
+visualization to understand the data schema better. We cleaned the dataset and calculated
+new features based on a replication of Yu et. al. \cite{yu2015restaurants} to train our
+models. We used caching for our training and test data in the Apache Parquet columnar storage
+format to make operations faster. Then we trained several models using calculated and existing
+features from dataset. Finally, we used test dataset to compare performances of different
+models using Mean Square Error, Precision, Recall, and Accuracy. We are able to predict the
+rating for an unseen restaurant for a user based on their reviews and ratings for other
+restaurants.
 
 
 \bibliography{references} 
