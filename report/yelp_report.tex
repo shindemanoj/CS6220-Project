@@ -389,9 +389,7 @@ but finding polarity of positivity and negativity is more difficult.
 
 \section{Discussion}
 
-We found that a certain model worked better. We found certain patterns
-in the data, etc. We also have certain caveats related to the data that
-we'll mention here.
+From the results we can observe that Mean Square Error for Linear and Random Forest Regression model is the same. In referenced paper random forest model outperforms the other models. This may be due to the size of the data set we are handling. The referenced paper did the analysis on 1.6M reviews and our model is using 5.6M reviews. As restaurant review ratings are discrete in nature between one to five, we also used decision tree classifier model to predict ratings. With decision tree classifier we got descent results which can be improved using under sampling or using other classification models.
 
 \section{Future Work}
 
@@ -402,9 +400,8 @@ We can also try few other models like Ridge Regression, Support Vector Machine, 
 
 \section{Conclusion}
 
-We found some things that worked well and other things that worked
-less well. There seems to be a positive direction forward taking a
-certain approach.
+Using Yelp data-set which is available on Kaggle we were able to create interactive data visualization to understand the data better. We cleaned the data-set and calculated new features to train our models. We cached our train and test data using Apache Parquet columnar storage format to make operations faster. Then we trained several models using calculated and existing features from data-set. Finally, we used test data set to compare performances of different models using Mean Square Error, Precision, Recall and Accuracy. We are able to predict the rating for an unseen restaurant for a user based on their reviews and ratings for other restaurants.
+
 
 
 \bibliography{references} 
