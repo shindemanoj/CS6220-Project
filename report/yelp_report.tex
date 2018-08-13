@@ -42,14 +42,12 @@
 %\tableofcontents
 
 \begin{abstract}
-  When traveling or desiring to experience new food, a person will often seek out
-  restaurant recommendations. The availiablity of data on restaurant preferences, via Yelp,
-  creates an opportunity for someone to have a more personalized experience.
-  We recommend restaurants to a user based on their past reviews and features which
-  differentiate types and quality of restaurants. Supervised learning techniques allow
-  us to predict the rating of unseen restaurants by each user. Restaurant rating
-  predictions allow us to rank which dining experiences are most likely to be well
-  received for each user.
+  When traveling or desiring to experience new food, a person will often seek out restaurant recommendations. 
+  The availability of data on restaurant preferences, via Yelp, creates an opportunity for someone to have a more personalized experience. 
+  In this project, We have developed a model to predict the star ratings of Yelp Reviews for restaurants using various machine learning algorithms 
+  such as Linear Regression, Random Forest Regression. User’s restaurant preferences can be understood via the reviews they write and ratings that 
+  they give to a restaurant that they have visited. Supervised learning techniques allow us to predict the rating of unseen restaurants by each user. 
+  Restaurant rating predictions allow us to rank which dining experiences are most likely to be well received for each user. 
   \end{abstract}
 
 \section{Introduction}
@@ -91,6 +89,16 @@ Yu et. al. \cite{yu2015restaurants} and then extend their paper by developing a 
 generates output that is more consistent with what would be expected by a Yelp user.
 
 
+\section{Background}
+With the advent of websites such as Yelp, customer feedback has become a significant component in business practices. 
+In order to maintain and increase their reputations, businesses should adjust their services according to criticism. 
+With increasing popularity, Yelp allows users to provide text reviews and assign 1-5 stars to local businesses. 
+This platform has collected a large amount of data over the years. As the size of the data continues to grow, 
+it would be helpful if we could learn to predict ratings based on review‘s text alone, as free-text reviews are difficult 
+for computer systems to understand, analyze and aggregate. This idea can be extended to many other applications where assessment 
+has traditionally been in the format of text and quickly assigning a numerical rating is difficult to execute. Examples include 
+predicting ratings for TV series or Ted Talks based on news articles or blogs assigning ratings to Netflix videos based on viewers‘ comments.
+
 \section{Methodology}
 
 Our approach was to replicate results which Yu et. al. \cite{yu2015restaurants} found
@@ -103,6 +111,24 @@ which is 3GB in size. The dataset has 5,200,000 user reviews, Information on 174
 spanning 11 metropolitan areas in four countries. The dataset has 7 csv files containing data on
 different attributes of a business. Our focus is on yelp\_business.csv and yelp\_review.csv where
 fields like user\_id, stars, review, category help us in establishing our model.
+
+\begin{figure}[h]
+  \caption{Review table Features}
+  \centering
+  \includegraphics[width=0.25\textwidth]{imgs/review_table}
+  \end{figure}
+  
+  \begin{figure}[h]
+  \caption{Percent of Zero or NA values per attribute}
+  \centering
+  \includegraphics[width=0.25\textwidth]{imgs/dataAudit}
+  \end{figure}
+  
+  \begin{figure}[h]
+  \caption{Number of Reviews for 1-5 star rating in Dataset}
+  \centering
+  \includegraphics[width=0.25\textwidth]{imgs/rating}
+  \end{figure}
 
 We evaluated the models in two ways. Models used by Yu et. al. \cite{yu2015restaurants}
 were evaluated using Mean Squared Error (MSE). They tried to make their prediction $\hat{R}_{u,i}$
@@ -311,12 +337,24 @@ Matplotlib \cite{Matplotl1:online}.
 
 \section{Results}
 
-Reviewing results here
+Over all models, it was generally found that the scores for extreme end classes i.e. 1 and 5 
+were much higher than the scores for middle classes such as 2,3, and 4. This is because it is 
+easier to differentiate a clearly negative text from a clearly positive review (binary classification)
+but finding polarity of positivity and negativity is more difficult.
 
 \begin{figure}[h]
-  \caption{A random scatterplot from Wikipedia}
+  \caption{Mean Square Error}
   \centering
-  \includegraphics[width=0.25\textwidth]{220px-Scatter_plot}
+  \includegraphics[width=0.25\textwidth]{imgs/MSE}
+  \end{figure}
+  
+  We used Decision Tree classifier to predict the outcome between a 1 and a 5 star rating.
+  
+  \begin{figure}[h]
+  \caption{Precision and Recall }
+  \centering
+  \graphicspath{{/Users/shohitbajaj/Documents/imgs}}
+  \includegraphics[width=0.25\textwidth,natwidth=610,natheight=642]{precisionRecall}
   \end{figure}
 
 
@@ -328,7 +366,10 @@ we'll mention here.
 
 \section{Future Work}
 
-We may make a recommendation API for Yelp.
+Predicted ratings of unseen restaurants can be used to recommend different restaurants to the user based 
+on the categories and attributes they prefer. This will enhance their experience on Yelp. 
+We can extend our review star prediction to all businesses and not limit it to restaurants. 
+We can also try few other models like Ridge Regression, Support Vector Machine, etc. for more accurate results
 
 \section{Conclusion}
 
