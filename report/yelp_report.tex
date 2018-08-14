@@ -194,7 +194,16 @@ Business Attributes table contained several attributes which seemed like they wo
 relevant features such as presence of Wifi. Upon conducting an assessment, we found that
 the Yelp Business Attributes was almost exclusively populated by NA values. By contrast, the
 Yelp Reviews table contained several good attributes but also some unusable attributes
-related to the classification of a review as ``funny'', ``cool'', or ``useful''. We found
+related to the classification of a review as ``funny'', ``cool'', or ``useful''. 
+
+\begin{figure}[h]
+  \caption{World Cloud of 5 Star Review Texts}
+  \centering
+  \includegraphics[width=0.5\textwidth]{WorldCloud}
+  \end{figure}
+  
+
+We also created Word Clouds to understand the sentiment in user reviews through the kind of words being used in a review when a user gives 1 Star or when they gives 5 Stars to a restaurant. We found
 that conducting an initial data audit up front allowed us to more productively focus our
 efforts.
 
@@ -412,12 +421,19 @@ but finding polarity of positivity and negativity is more difficult.
 
 \section{Discussion}
 
+We used Mean Square Error metric to evaluate Baseline, Linear Regression and Random Forest Regression models. 
+The mean squared error (MSE) of an estimator (of a procedure for estimating an unobserved quantity) measures the average of the squares of the errors—that is, the average squared difference between the estimated values and what is estimated. 
 We observed in the results that Mean Square Error for Linear and Random Forest Regression
 model is the same. In referenced paper random forest model outperforms the other models. This may
 be due to the size of the dataset we are handling. The referenced paper did the analysis on 1.6M
-reviews and our model is using 5.6M reviews. As restaurant review ratings are discrete in nature
+reviews and our model is using 5.6M reviews. \\ \\
+As restaurant review ratings are discrete in nature
 between one to five, we also used decision tree classifier model to predict ratings. The
-Decision Tree Classifier provided considerably better results than random selection. These
+Decision Tree Classifier provided considerably better results than random selection. 
+We used Precision, Recall and f1-score metrics to evaluate Decision Tree Classifier model. 
+Precision is the fraction of relevant instances among the retrieved instances, while recall (also known as sensitivity) is the fraction of relevant instances that have been retrieved over the total amount of relevant instances. The F1 score is the harmonic average of the precision and recall. It considers both the precision and the recall of the test to compute the score. 
+We got 0.67 score for precision, recall and f1-score. 
+These
 results can be improved with better features or more normalization to bring out more signal
 from the noise resulting from imbalanced review star classes in the Yelp dataset.
 
